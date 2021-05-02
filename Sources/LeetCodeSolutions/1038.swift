@@ -24,24 +24,22 @@ import Foundation
  */
 
 func bstToGst(_ root: TreeNode?) -> TreeNode? {
-    _bstToGst(root, 0)
+    _ = _bstToGst(root, 0)
+    return root
 }
 
-func _bstToGst(_ root: TreeNode?, _ rootVal: Int) -> TreeNode? {
+func _bstToGst(_ root: TreeNode?, _ parentValue: Int) -> TreeNode? {
     guard let root = root else { return nil }
-    var valToAddToRoot = rootVal
     if let right = root.right {
-        if let rightChild = _bstToGst(right, rootVal) {
-            var childToAdd = rightChild
-            while let left = childToAdd.left {
-                childToAdd = left
-            }
-            valToAddToRoot = childToAdd.val
+        if let next = _bstToGst(right, parentValue) {
+            root.val += next.val
         }
+    } else {
+        root.val += parentValue
     }
-    root.val += valToAddToRoot
     if let left = root.left {
-        _ = _bstToGst(left, root.val)
+        return _bstToGst(left, root.val)
+    } else {
+        return root
     }
-    return root
 }
