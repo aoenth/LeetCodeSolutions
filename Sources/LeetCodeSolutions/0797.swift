@@ -36,14 +36,12 @@ struct Q0797 {
             var result = [[Int]]()
 
             for vertex in graph[currentIndex] {
-                let path = findPath(graph, vertex)
-                if !path.isEmpty {
-                    result += path
+                let paths = findPath(graph, vertex)
+                if !paths.isEmpty {
+                    result += paths.map { [currentIndex] + $0 }
                 }
             }
-            return result.map {
-                [currentIndex] + $0
-            }
+            return result
         }
     }
 }
