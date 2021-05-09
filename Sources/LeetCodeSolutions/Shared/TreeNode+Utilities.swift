@@ -10,32 +10,42 @@ extension TreeNode {
     // Encodes a tree to a single string.
     static func serialize(_ root: TreeNode?) -> String {
         let result = encode(root)
-        return result.joined(separator: " ")
+        return "[" + result.joined(separator: ",") + "]"
     }
 
     private static func encode(_ root: TreeNode?) -> [String] {
-        guard let root = root else { return [String(Int.min)] }
-        return encode(root.left) + encode(root.right) + [String(root.val)]
+        guard let root = root else { return ["null"] }
+        var result = [String]()
+        if let left = root.left {
+            result += encode(left)
+        }
+        if let right = root.right {
+            result += encode(right)
+        }
+        result.append(String(root.val))
+        return result
     }
 
-    // Decodes your encoded data to tree.
     static func deserialize(_ data: String) -> TreeNode? {
-        var arr = data.components(separatedBy: " ").compactMap(Int.init)
-        if arr.count == 0 { return nil}
-        return decode(&arr)
+        var data = data
+        data.removeFirst()
+        data.removeLast()
+        data = data.components(separatedBy: ",")
+        if data.count == 0 { return nil }
+        return decode(&data)
     }
 
-    private static func decode(_ arr: inout [Int])-> TreeNode?{
-        if arr.count == 0 {return nil}
-        let lastItem = arr.last!
-        if lastItem == Int.min {
-            arr.removeLast()
+    private static func decode(_ array: inout [String])-> TreeNode? {
+        if array.count == 0 { return nil }
+        let lastItem = array.last!
+        if lastItem == "null" {
+            array.removeLast()
             return nil
         }
-        let val = arr.removeLast()
+        let val = array.removeLast()
         let node: TreeNode? = TreeNode(val)
-        node?.right = decode(&arr)
-        node?.left = decode(&arr)
+        node?.right = decode(&array)
+        node?.left = decode(&array)
         return node
     }
 }
