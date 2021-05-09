@@ -30,9 +30,9 @@ extension TreeNode {
         var data = data
         data.removeFirst()
         data.removeLast()
-        data = data.components(separatedBy: ",")
-        if data.count == 0 { return nil }
-        return decode(&data)
+        var array = data.components(separatedBy: ",")
+        if array.count == 0 { return nil }
+        return decode(&array)
     }
 
     private static func decode(_ array: inout [String])-> TreeNode? {
@@ -43,7 +43,7 @@ extension TreeNode {
             return nil
         }
         let val = array.removeLast()
-        let node: TreeNode? = TreeNode(val)
+        let node: TreeNode? = TreeNode(Int(val)!)
         node?.right = decode(&array)
         node?.left = decode(&array)
         return node
