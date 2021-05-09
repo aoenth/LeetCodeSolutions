@@ -17,11 +17,14 @@ struct Q0763 {
             while currentIndex < input.count {
                 let lhs = Set(input[startIndex ..< currentIndex])
                 let rhs = Set(input[currentIndex ..< input.count])
-                if lhs.intersection(rhs).isEmpty {
+                let intersection = lhs.intersection(rhs)
+                if let firstIntersection = intersection.first {
+                    currentIndex = input.lastIndex(of: firstIntersection)! + 1
+                } else {
                     result.append(currentIndex - startIndex)
                     startIndex = currentIndex
+                    currentIndex += 1
                 }
-                currentIndex += 1
             }
             result.append(currentIndex - startIndex)
             return result
