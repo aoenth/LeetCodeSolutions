@@ -29,8 +29,6 @@ struct Q0797 {
         func findPath(_ graph: [[Int]], _ currentIndex: Int) -> [[Int]] {
             if currentIndex == graph.count - 1 {
                 return [[currentIndex]]
-            } else if graph[currentIndex].isEmpty {
-                return []
             }
 
             var result = [[Int]]()
