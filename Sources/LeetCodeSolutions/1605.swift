@@ -5,6 +5,8 @@
 import Foundation
 
 struct Q1605 {
+    static let answer = Solution().restoreMatrix
+    /// My original solution
     class Solution {
         func restoreMatrix(_ rowSum: [Int], _ colSum: [Int]) -> [[Int]] {
             var result = [[Int]](

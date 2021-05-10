@@ -6,7 +6,7 @@ import XCTest
 @testable import LeetCodeSolutions
 
 class Test1605: XCTestCase {
-    private let sut = Q1605.Solution().restoreMatrix
+    private let sut = Q1605.answer
     func test1() {
         let result = sut([1,0], [0,1])
         let expectation = [[0,1],
