@@ -20,7 +20,7 @@ final class Test1557: XCTestCase {
     }
 
     func testPerformance() {
-        XCTestAssertRunTimeLessThan(1000) {
+        XCTAssertRunTimeLessThan(1000) {
             for _ in 0 ..< 1000000 {
                 _ = sut(6, [[0,1],[2,1],[3,1],[1,4],[2,4]])
             }

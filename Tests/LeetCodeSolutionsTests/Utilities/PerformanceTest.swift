@@ -5,7 +5,7 @@
 import XCTest
 
 extension XCTestCase {
-    func XCTestAssertRunTimeLessThan(_ runTimeMillis: Int, _ closureToRun: () -> Void) {
+    func XCTAssertRunTimeLessThan(_ runTimeMillis: Int, _ closureToRun: () -> Void) {
         let timeTaken = timeBlock(closure: closureToRun)
         XCTAssertLessThan(timeTaken, runTimeMillis)
     }
