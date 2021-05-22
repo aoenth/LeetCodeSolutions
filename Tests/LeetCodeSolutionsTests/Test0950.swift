@@ -53,4 +53,11 @@ class Test0950: XCTestCase {
         let expectation = [2,13,3,11,5,17,7]
         XCTAssertEqual(result, expectation)
     }
+
+    func test7() {
+        let input = [1, 2, 3]
+        let result = sut(input)
+        let expectation = [1, 3, 2]
+        XCTAssertEqual(result, expectation)
+    }
 }

@@ -7,7 +7,8 @@
 
 import Foundation
 struct Q0950 {
-    typealias Answer = Solution
+    typealias Answer = Solution2
+    //160ms
     class Solution {
         func deckRevealedIncreasing(_ deck: [Int]) -> [Int] {
             let deckSize = deck.count
@@ -34,6 +35,35 @@ struct Q0950 {
                     oddIndices.removeAll { $0 == removable }
                 }
                 index = index == emptySlots ? 0 : 1
+            }
+            return result
+        }
+    }
+
+    //40ms
+    class Solution2 {
+        func deckRevealedIncreasing(_ deck: [Int]) -> [Int] {
+            let deckSize = deck.count
+            let sortedArray = deck.sorted()
+            var result = [Int](repeating: 0, count: deckSize)
+            var currentIndex = 0
+            for i in stride(from: 0, to: deckSize, by: 2) {
+                result[i] = sortedArray[currentIndex]
+                currentIndex += 1
+            }
+
+            var oddIndices = Array(stride(from: 1, to: deckSize, by: 2))
+            var index = deckSize % 2 == 0 ? 0 : 1
+            while oddIndices.isEmpty == false {
+                if index == oddIndices.count || oddIndices.count == 1 {
+                    index = 0
+                } else if index > oddIndices.count {
+                    index = 1
+                }
+                result[oddIndices[index]] = sortedArray[currentIndex]
+                currentIndex += 1
+                oddIndices.remove(at: index)
+                index += 1
             }
             return result
         }
