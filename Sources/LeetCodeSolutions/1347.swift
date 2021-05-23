@@ -4,7 +4,7 @@
 
 import Foundation
 struct Q1347 {
-    typealias Answer = Solution
+    typealias Answer = SolutionB
 
     // O(N) time (280ms), O(1) space (14.9MB)
     // time = N + 26
@@ -25,6 +25,19 @@ struct Q1347 {
                 }
             }
             return s.count - commons
+        }
+    }
+
+    class SolutionB {
+        func minSteps(_ s: String, _ t: String) -> Int {
+            var dict = [Character: (Int, Int)]()
+            for (sc, tc) in zip(s, t) {
+                dict[sc, default: (0, 0)].0 += 1
+                dict[tc, default: (0, 0)].1 += 1
+            }
+            return dict.values.reduce(s.count) {
+                $0 - min($1.0, $1.1)
+            }
         }
     }
 }
