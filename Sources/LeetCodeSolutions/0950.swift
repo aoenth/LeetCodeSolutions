@@ -40,7 +40,7 @@ struct Q0950 {
         }
     }
 
-    //40ms
+    //32ms
     class Solution2 {
         func deckRevealedIncreasing(_ deck: [Int]) -> [Int] {
             let deckSize = deck.count
@@ -55,15 +55,15 @@ struct Q0950 {
             var oddIndices = Array(stride(from: 1, to: deckSize, by: 2))
             var index = deckSize % 2 == 0 ? 0 : 1
             while oddIndices.isEmpty == false {
-                if index == oddIndices.count || oddIndices.count == 1 {
-                    index = 0
-                } else if index > oddIndices.count {
-                    index = 1
+                if index >= oddIndices.count {
+                    index -= oddIndices.count
                 }
                 result[oddIndices[index]] = sortedArray[currentIndex]
                 currentIndex += 1
                 oddIndices.remove(at: index)
-                index += 1
+                if oddIndices.count > 1 {
+                    index += 1
+                }
             }
             return result
         }
