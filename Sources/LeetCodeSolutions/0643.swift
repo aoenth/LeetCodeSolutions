@@ -14,10 +14,8 @@ struct Q0643 {
                 current + nums[next]
             }
             var maxSum = currentSum
-            print(maxSum)
             for i in k ..< nums.count {
                 currentSum = currentSum - nums[i - k] + nums[i]
-                print(currentSum)
                 if currentSum > maxSum {
                     maxSum = currentSum
                 }
