@@ -10,7 +10,14 @@ import Foundation
 struct Q3979 {
     class Solution {
         func addOperators(_ num: String, _ target: Int) -> [String] {
-            []
+            findPath(
+                num,
+                target,
+                num.startIndex,
+                "",
+                1,
+                0
+            )
         }
 
         private func findPath(
@@ -21,12 +28,18 @@ struct Q3979 {
             _ previousOperand: Int,
             _ previousResult: Int
         ) -> [String] {
-            guard index < num.endIndex else { return [] }
+            guard index < num.endIndex else {
+                if previousResult == target {
+                    return [previousOperation + "\(previousOperand)"]
+                } else {
+                    return []
+                }
+            }
 
             let currentOperandString = String(num[index])
             let currentOperand = Int(currentOperandString)!
 
-            let additionPath = findPath(
+            let additionPaths = findPath(
                 num,
                 target,
                 num.index(after: index),
@@ -63,10 +76,17 @@ struct Q3979 {
                 currentOperand,
                 pendingResult
             )
-            return
-                additionPath +
+            if previousOperation.isEmpty {
+                return additionPaths +
                 subtractionPath +
                 multiplicationPath
+            } else {
+                return [additionPaths, subtractionPath, multiplicationPath].flatMap { paths in
+                    paths.map { path in
+                        previousOperation + String(describing: previousOperand) + path
+                    }
+                }
+            }
         }
     }
 }

@@ -12,7 +12,14 @@ class Test3979: XCTestCase {
     private let sut = Q3979.Solution().addOperators
 
     func test1() {
-        
+        let result = sut("123", 6)
+
+        let expectation = [
+            "1*2*3",
+            "1+2+3"
+        ]
+
+        XCTAssertEqual(result, expectation)
     }
 
     func test2() {
