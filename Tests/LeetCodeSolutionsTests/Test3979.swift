@@ -12,16 +12,13 @@ class Test3979: XCTestCase {
     private let sut = Q3979.Solution().addOperators
 
     func test1() {
-        let result = sut("123", 6)
+        let result = Set(sut("123", 6))
 
-        let expectation = [
+        let expectation: Set<String> = [
             "1*2*3",
             "1+2+3"
         ]
 
         XCTAssertEqual(result, expectation)
-    }
-
-    func test2() {
     }
 }

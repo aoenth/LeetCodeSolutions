@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  File
+//  3979.swift
+//  3979
 //
 //  Created by Kevin Peng on 2021-09-18.
 //
@@ -10,83 +10,54 @@ import Foundation
 struct Q3979 {
     class Solution {
         func addOperators(_ num: String, _ target: Int) -> [String] {
-            findPath(
-                num,
-                target,
-                num.startIndex,
-                "",
-                1,
-                0
-            )
-        }
-
-        private func findPath(
-            _ num: String,
-            _ target: Int,
-            _ index: String.Index,
-            _ previousOperation: String,
-            _ previousOperand: Int,
-            _ previousResult: Int
-        ) -> [String] {
-            guard index < num.endIndex else {
-                if previousResult == target {
-                    return [previousOperation + "\(previousOperand)"]
-                } else {
-                    return []
-                }
-            }
-
-            let currentOperandString = String(num[index])
-            let currentOperand = Int(currentOperandString)!
-
-            let additionPaths = findPath(
-                num,
-                target,
-                num.index(after: index),
-                "+",
-                currentOperand,
-                previousResult + currentOperand
-            )
-
-            let subtractionPath = findPath(
-                num,
-                target,
-                num.index(after: index),
-                "-",
-                currentOperand,
-                previousResult - currentOperand
-            )
-
-            var pendingResult = previousResult
-            if previousOperation == "+" {
-                pendingResult = previousResult - previousOperand
-                let currentMultiple = previousOperand * currentOperand
-                pendingResult += currentMultiple
-            } else if previousOperation == "-" {
-                pendingResult = previousResult + previousOperand
-                let currentMultiple = previousOperand * currentOperand
-                pendingResult -= currentMultiple
-            }
-
-            let multiplicationPath = findPath(
-                num,
-                target,
-                num.index(after: index),
-                "*",
-                currentOperand,
-                pendingResult
-            )
-            if previousOperation.isEmpty {
-                return additionPaths +
-                subtractionPath +
-                multiplicationPath
-            } else {
-                return [additionPaths, subtractionPath, multiplicationPath].flatMap { paths in
-                    paths.map { path in
-                        previousOperation + String(describing: previousOperand) + path
+            let n = num.endIndex
+            var answers: [String] = []
+            func findPath(
+                index: String.Index,
+                previousOperand: Int,
+                currentOperand: Int,
+                value: Int,
+                string: [String]
+            ) {
+                guard index < n else {
+                    if value == target, currentOperand == 0 {
+                        answers.append(string[1...].joined(separator: ""))
                     }
+                    return
+                }
+
+                let currentOperand = currentOperand * 10 + Int(String(num[index]))!
+                let currentOperandString = String(describing: currentOperand)
+
+                if currentOperand > 0 {
+                    findPath(index: num.index(after: index), previousOperand: previousOperand, currentOperand: currentOperand, value: value, string: string)
+                }
+
+                var newString = string + ["+", currentOperandString]
+
+                findPath(index: num.index(after: index), previousOperand: currentOperand, currentOperand: 0, value: value + currentOperand, string: newString)
+
+                newString.removeLast(2)
+
+                if newString.count > 0 {
+                    newString += ["-", currentOperandString]
+                    findPath(index: num.index(after: index), previousOperand: -currentOperand, currentOperand: 0, value: value - currentOperand, string: newString)
+                    newString.removeLast(2)
+
+
+                    newString += ["*", currentOperandString]
+                    findPath(
+                        index: num.index(after: index),
+                        previousOperand: currentOperand * previousOperand,
+                        currentOperand: 0,
+                        value: value - previousOperand + (currentOperand * previousOperand),
+                        string: newString)
+
+                    newString.removeLast(2)
                 }
             }
+            findPath(index: num.startIndex, previousOperand: 0, currentOperand: 0, value: 0, string: [])
+            return answers
         }
     }
 }
